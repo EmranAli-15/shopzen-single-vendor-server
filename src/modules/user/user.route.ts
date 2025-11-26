@@ -11,7 +11,7 @@ route.post("/user/loginUser", validator(userValidation.loginValidation), userCon
 route.get("/user/getUser/:id", auth("user"), userController.getUser);
 
 
-// route.post("/user/googleLogin", userController.googleLogin);
+route.post("/user/googleLogin", userController.googleLogin);
 
 route.post("/user/registerUser", validator(userValidation.registerValidation), userController.createUser);
 

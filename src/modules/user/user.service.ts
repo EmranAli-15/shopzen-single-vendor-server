@@ -40,12 +40,12 @@ const loginUser = async (payload: TLogin) => {
 
 
 const googleLogin = async (payload: TUser) => {
-    const { email, fullName } = payload;
+    const { email, fullName, image } = payload;
     const isExist = await User.findOne({ email });
 
     if (!isExist) {
         const password = "123456"
-        const data = { email, fullName, password, role: "user" };
+        const data = { email, fullName, image, password, role: "user" };
         data.password = await makeHash(data.password)
         const createUser = await User.create(data);
 
