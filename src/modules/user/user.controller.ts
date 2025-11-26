@@ -14,16 +14,16 @@ const loginUser = handleAsync(
     }
 );
 
-// const googleLogin = handleAsync(
-//     async (req: Request, res: Response) => {
-//         const result = await userService.googleLogin(req.body);
+const googleLogin = handleAsync(
+    async (req: Request, res: Response) => {
+        const result = await userServices.googleLogin(req.body);
 
-//         res.status(200).json({
-//             message: "User login complete.",
-//             data: result
-//         })
-//     }
-// );
+        res.status(200).json({
+            message: "User login complete.",
+            data: result
+        })
+    }
+);
 
 const createUser = handleAsync(
     async (req: Request, res: Response) => {
@@ -66,5 +66,6 @@ export const userController = {
     createUser,
     loginUser,
     getUser,
-    updateUser
+    updateUser,
+    googleLogin
 }

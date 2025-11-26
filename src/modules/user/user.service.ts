@@ -39,6 +39,47 @@ const loginUser = async (payload: TLogin) => {
 
 
 
+const googleLogin = async (payload: TUser) => {
+    const { email, fullName } = payload;
+    const isExist = await User.findOne({ email });
+
+    if (!isExist) {
+        const password = "123456"
+        const data = { email, fullName, password, role: "user" };
+        data.password = await makeHash(data.password)
+        const createUser = await User.create(data);
+
+        const jwtPayload = {
+            name: payload.fullName,
+            email: payload.email,
+            role: createUser.role,
+            address: createUser.address,
+            phone: createUser.phone,
+            photo: "",
+            userId: createUser?._id,
+        };
+        const accessToken = createAccessToken(jwtPayload);
+        return accessToken;
+    }
+    else {
+        const jwtPayload = {
+            name: isExist.fullName,
+            email: payload.email,
+            role: isExist.role,
+            address: isExist.address,
+            phone: isExist.phone,
+            photo: isExist.image,
+            userId: isExist?._id,
+        };
+
+        const accessToken = createAccessToken(jwtPayload);
+        return accessToken;
+    }
+}
+
+
+
+
 const registerUser = async (payload: TRegister) => {
     const { fullName, email, password, confirmPassword } = payload;
     const passwordRegex = /^(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?/~`-])(?=.{6,32}$).*$/;
@@ -103,5 +144,6 @@ export const userServices = {
     getUser,
     loginUser,
     registerUser,
-    updateUser
+    updateUser,
+    googleLogin
 }
