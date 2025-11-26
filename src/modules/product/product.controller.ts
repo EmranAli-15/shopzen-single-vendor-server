@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { handleAsync } from "../../utils/handleAsync";
 import { productServices } from "./product.service";
-import { number } from "joi";
 
 const createProduct = handleAsync(
     async (req: Request, res: Response) => {
@@ -24,6 +23,32 @@ const getSingleProduct = handleAsync(
             message: "Product retrieved successfull.",
             data: result
         })
+    }
+);
+
+const getProductsByCategory = handleAsync(
+    async (req: Request, res: Response) => {
+        const { categoryId } = req.params;
+        const { page } = req.query;
+
+        const result = await productServices.getProductsByCategory({ id: categoryId as string, page: Number(page) - 1 });
+
+        res.status(200).json({
+            message: "Category products retrieved.",
+            data: result
+        });
+    }
+);
+
+const searchProducts = handleAsync(
+    async (req: Request, res: Response) => {
+        const { text } = req.query;
+        const result = await productServices.searchProducts(text as string);
+
+        res.status(200).json({
+            message: "Products searched.",
+            data: result
+        });
     }
 );
 
@@ -75,5 +100,7 @@ export const productControllers = {
     getAllProducts,
     getSingleProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsByCategory,
+    searchProducts
 }

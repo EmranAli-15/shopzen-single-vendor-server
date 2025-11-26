@@ -14,7 +14,11 @@ route.delete("/product/deleteProduct/:productId", auth("admin"), productControll
 
 route.get("/product/getSingleProduct/:productId", productControllers.getSingleProduct);
 
+route.get("/product/getCategoryProducts/:categoryId", productControllers.getProductsByCategory);
+
 route.get("/product/getAllProduct", productControllers.getAllProducts);
+
+route.get("/product/searchProducts", productControllers.searchProducts);
 
 
 

@@ -14,6 +14,12 @@ const getSingleProduct = async (id: string) => {
     return result
 };
 
+const getProductsByCategory = async ({ id, page }: { id: string, page: number }) => {
+    const limit = 20;
+    const result = await Product.find({ category: id }).skip(page * limit).limit(limit).populate("category");
+    return result;
+};
+
 const updateProduct = async ({ id, payload }: { id: string, payload: TProduct }) => {
 
     const data = payload;
@@ -51,11 +57,38 @@ const getAllProduct = async ({ skip, limit }: { skip: number, limit: number }) =
     return result
 };
 
+const searchProducts = async (text: string) => {
+
+    const result = await Product.aggregate([
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "categoryData"
+            }
+        },
+        { $unwind: "$categoryData" },
+        {
+            $match: {
+                $or: [
+                    { name: { $regex: text, $options: "i" } },
+                    { "categoryData.name": { $regex: text, $options: "i" } }
+                ]
+            }
+        }
+    ]);
+
+    return result;
+}
+
 
 export const productServices = {
     createProduct,
     getAllProduct,
     getSingleProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsByCategory,
+    searchProducts
 }
