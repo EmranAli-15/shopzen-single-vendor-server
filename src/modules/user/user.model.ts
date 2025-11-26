@@ -27,6 +27,10 @@ const userSchema = new Schema<TUser>(
             type: String,
             required: false
         },
+        addresses: {
+            type: [],
+            required: false
+        },
         role: {
             type: String,
             required: true

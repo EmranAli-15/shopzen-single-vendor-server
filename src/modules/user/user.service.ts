@@ -44,7 +44,7 @@ const registerUser = async (payload: TRegister) => {
     const passwordRegex = /^(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?/~`-])(?=.{6,32}$).*$/;
 
     if (!passwordRegex.test(password)) {
-        throw new AppError(404, 'Password should atleast 6 digit and 6-32 digit long');
+        throw new AppError(404, 'Password should atleast 1 special character and 6-32 digit long');
     }
 
     const isUserExist = await User.exists({ email });
@@ -87,8 +87,6 @@ const getUser = async (id: string) => {
 
 
 const updateUser = async ({ id, payload }: { id: string, payload: TUser }) => {
-    console.log(payload);
-
     const isUserExist = await User.exists({ _id: id });
 
     if (!isUserExist) {

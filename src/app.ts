@@ -3,6 +3,7 @@ import cors from 'cors';
 import { userRoutes } from './modules/user/user.route';
 import { categoryRoutes } from './modules/category/category.route';
 import { productRoutes } from './modules/product/product.route';
+import { cartRoutes } from './modules/cart/cart.route';
 
 export const app = express();
 export const port = process.env.PORT || 5000;
@@ -21,6 +22,7 @@ app.use(cors({
 app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
+app.use('/api', cartRoutes);
 // ROUTES
 
 

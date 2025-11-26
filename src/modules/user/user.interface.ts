@@ -17,5 +17,6 @@ export type TUser = {
     image: string,
     phone: string,
     address: string,
+    addresses: [],
     role: string
 }
