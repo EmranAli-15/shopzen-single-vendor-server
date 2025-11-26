@@ -14,10 +14,50 @@ const createProduct = handleAsync(
     }
 );
 
+const getSingleProduct = handleAsync(
+    async (req: Request, res: Response) => {
+        const { productId } = req.params;
+
+        const result = await productServices.getSingleProduct(productId as string);
+
+        res.status(200).json({
+            message: "Product retrieved successfull.",
+            data: result
+        })
+    }
+);
+
+const updateProduct = handleAsync(
+    async (req: Request, res: Response) => {
+        const { productId } = req.params;
+        const data = req.body;
+
+        const result = await productServices.updateProduct({ id: productId as string, payload: data });
+
+        res.status(200).json({
+            message: "Product update successfull.",
+            data: result
+        })
+    }
+);
+
+const deleteProduct = handleAsync(
+    async (req: Request, res: Response) => {
+        const { productId } = req.params;
+
+        const result = await productServices.deleteProduct(productId as string);
+
+        res.status(200).json({
+            message: "Product deleted successfull.",
+            data: result
+        })
+    }
+);
+
 const getAllProducts = handleAsync(
     async (req: Request, res: Response) => {
         const { page, limit } = req.query;
-        
+
         const pageNum = Number(page)
         const limitNum = Number(limit)
 
@@ -32,5 +72,8 @@ const getAllProducts = handleAsync(
 
 export const productControllers = {
     createProduct,
-    getAllProducts
+    getAllProducts,
+    getSingleProduct,
+    updateProduct,
+    deleteProduct
 }

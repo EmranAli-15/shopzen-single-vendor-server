@@ -25,6 +25,18 @@ const updateCategory = handleAsync(
     }
 );
 
+const deleteCategory = handleAsync(
+    async (req: Request, res: Response) => {
+        const { categoryId } = req.params;
+        const result = await categoryServices.deleteCategory(categoryId as string);
+
+        res.status(200).json({
+            message: "Category deleted successfull.",
+            data: result
+        })
+    }
+);
+
 const getCategories = handleAsync(
     async (req: Request, res: Response) => {
         const result = await categoryServices.getCategories();
@@ -53,5 +65,6 @@ export const categoryController = {
     createCategory,
     updateCategory,
     getCategories,
-    getSingleCategory
+    getSingleCategory,
+    deleteCategory
 }

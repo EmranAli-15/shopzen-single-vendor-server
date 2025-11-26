@@ -50,7 +50,7 @@ const ProductSchema = new Schema<TProduct>(
 
         stock: {
             type: Number,
-            default: 0,
+            default: 10,
         },
 
         brand: {

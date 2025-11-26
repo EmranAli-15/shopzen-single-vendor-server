@@ -10,6 +10,8 @@ route.post("/category/createCategory", auth("admin"), validator(categoryValidati
 
 route.patch("/category/updateCategory/:categoryId", auth("admin"), validator(categoryValidation.updateCategory), categoryController.updateCategory);
 
+route.delete("/category/deleteCategory/:categoryId", auth("admin"), categoryController.deleteCategory);
+
 route.get("/category/getCategoris", categoryController.getCategories);
 
 route.get("/category/getSingleCategory/:categoryId", categoryController.getSingleCategory);
