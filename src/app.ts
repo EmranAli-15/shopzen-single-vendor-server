@@ -4,6 +4,7 @@ import { userRoutes } from './modules/user/user.route';
 import { categoryRoutes } from './modules/category/category.route';
 import { productRoutes } from './modules/product/product.route';
 import { cartRoutes } from './modules/cart/cart.route';
+import { orderRoutes } from './modules/order/order.route';
 
 export const app = express();
 export const port = process.env.PORT || 5000;
@@ -23,6 +24,7 @@ app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
 app.use('/api', cartRoutes);
+app.use('/api', orderRoutes);
 // ROUTES
 
 
