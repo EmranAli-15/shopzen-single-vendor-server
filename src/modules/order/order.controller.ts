@@ -18,8 +18,20 @@ const getMyorders = handleAsync(
         const { userId } = req.params;
         const result = await orderServices.getMyOrders(userId as string);
 
-        res.status(201).json({
+        res.status(200).json({
             message: "Orders retrieved successfull.",
+            data: result
+        })
+    }
+);
+
+const updateOrder = handleAsync(
+    async (req: Request, res: Response) => {
+        const { orderId } = req.params;
+        const result = await orderServices.updateOrder({ orderId: orderId as string, status: req.body.status });
+
+        res.status(200).json({
+            message: "Orders updated successfull.",
             data: result
         })
     }
@@ -27,5 +39,6 @@ const getMyorders = handleAsync(
 
 export const orderController = {
     createOrder,
-    getMyorders
+    getMyorders,
+    updateOrder
 };

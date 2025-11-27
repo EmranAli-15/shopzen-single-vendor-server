@@ -1,3 +1,4 @@
+import { any } from "joi";
 import AppError from "../../errors/AppError";
 import { Product } from "../product/product.model";
 import { TOrder } from "./order.interface";
@@ -47,29 +48,9 @@ const createOrder = async (payload: TOrder) => {
         userId: data.userId,
         products,
         totalAmount,
-        status: [
-            {
-                orderConfirmed: false,
-                time: ""
-            },
-            {
-                packed: false,
-                time: ""
-            },
-            {
-                shipped: false,
-                time: ""
-            },
-            {
-                outForDelivery: false,
-                time: ""
-            },
-            {
-                delivered: false,
-                time: ""
-            }
-        ],
+        status: "pending"
     }
+
     // Create order
     const order = await Order.create(orderData);
     return order
@@ -77,13 +58,33 @@ const createOrder = async (payload: TOrder) => {
 
 
 const getMyOrders = async (id: string) => {
-    const result = Order.find({ userId: id }).populate("products.product", "name image discount_price");
+    const result = await Order.find({ userId: id }).populate("products.product", "name image discount_price");
     return result
-    console.log(result)
+}
+
+const updateOrder = async ({ orderId, status }: { orderId: string, status: string }) => {
+    const getOrder = await Order.findById(orderId);
+
+    let updatedStatus;
+    if (getOrder) {
+        if (status == "confirmed") updatedStatus = 'confirmed';
+        else if (status == "packed") updatedStatus = 'packed';
+        else if (status == "shipped") updatedStatus = 'shipped';
+        else if (status == "out_for_delivery") updatedStatus = 'out_for_delivery';
+        else if (status == "delivered") updatedStatus = 'delivered';
+    };
+
+    const result = await Order.findByIdAndUpdate(
+        orderId,
+        { $set: { status: updatedStatus } },
+        { new: true }
+    );
+    return result;
 }
 
 
 export const orderServices = {
     createOrder,
-    getMyOrders
+    getMyOrders,
+    updateOrder
 };

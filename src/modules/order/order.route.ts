@@ -10,6 +10,8 @@ route.post("/order/createOrder", validator(orderValidation.createOrder), orderCo
 
 route.get("/order/getMyOrders/:userId", orderController.getMyorders);
 
+route.patch("/order/updateOrder/:orderId", auth("admin"), orderController.updateOrder);
+
 
 
 export const orderRoutes = route;
