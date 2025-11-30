@@ -4,10 +4,10 @@ export type TProduct = {
     name: string,
     category: Types.ObjectId,
     description: string,
-    image: string,         // main image
-    images: string[],       // gallery images
+    image: string,
+    images: string[],
     original_price: number,
-    discount: number,       // percentage (e.g., 10 means 10% off)
+    discount: number,
     discount_price?: number,
     rating: number,
     stock?: number,

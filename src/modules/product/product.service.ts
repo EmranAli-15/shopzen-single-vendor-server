@@ -4,7 +4,7 @@ import { Product } from "./product.model";
 const createProduct = async (payload: TProduct) => {
     const data = payload;
 
-    data.discount_price = data.original_price - ((data.original_price * data.discount) / 100);
+    data.discount_price = Math.floor(data.original_price - ((data.original_price * data.discount) / 100));
     const result = await Product.create(data);
     return result
 };
